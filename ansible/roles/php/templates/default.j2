@@ -1,0 +1,29 @@
+server {
+    listen 80;
+    server_name seu_dominio.com; # Substitua isso pelo seu nome de domínio real ou endereço IP
+    root /var/www/html; # O diretório raiz do seu site
+
+    index index.php index.html index.htm;
+
+    location / {
+        try_files $uri $uri/ =404;
+    }
+
+    location ~ \.php$ {
+        include snippets/fastcgi-php.conf;
+
+        # Com o PHP 7.0+ use soquetes Unix
+        fastcgi_pass unix:/var/run/php/php8.3-fpm.sock;
+        
+        # Ou com PHP-FPM via rede (porta 9000 por padrão)
+        # fastcgi_pass 127.0.0.1:9000;
+
+        include fastcgi_params;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        fastcgi_param SCRIPT_NAME $fastcgi_script_name;
+    }
+
+    location ~ /\.ht {
+        deny all;
+    }
+}

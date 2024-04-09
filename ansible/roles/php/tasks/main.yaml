@@ -1,0 +1,28 @@
+- name: Adicionar repositório do PHP
+  apt_repository:
+    repo: ppa:ondrej/php
+    state: present
+
+- name: Instalar PHP 8.3 e extensões comuns
+  apt:
+    name:
+      - php8.3
+      - php8.3-fpm
+      - php8.3-mysql
+      - php8.3-xml
+      - php8.3-mbstring
+      - php8.3-curl
+    state: present
+
+- name: Copiar arquivo de configuração do Nginx para suportar PHP
+  template:
+    src: ./templates/default.j2
+    dest: /etc/nginx/sites-available/default
+
+- name: Copiando index.php
+  template:
+    src: ./templates/index.php
+    dest: /var/www/html/index.php
+
+- name: Reiniciar Servidor web
+  command: service nginx restart

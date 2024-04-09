@@ -1,6 +1,7 @@
 - name: install
   hosts: webservers
   become: yes
-  gather_facts: true
+  gather_facts: false
   roles:
-      - role: common
+    - nginx
+    - php

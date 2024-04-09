@@ -1,0 +1,11 @@
+- name: Instalar o Nginx no Ubuntu
+  apt:
+    name: nginx
+    state: present
+    update_cache: yes
+
+- name: Garantir que o Nginx esteja rodando (e habilitado no boot)
+  service:
+    name: nginx
+    state: started
+    enabled: yes
